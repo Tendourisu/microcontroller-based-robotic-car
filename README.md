@@ -1,153 +1,88 @@
-# Project for Electronic Technology
+# Microcontroller-based Robotic Car
 
-An intelligent electronic car control system based on STM32 microcontrollers and OpenMV vision modules, implementing various autonomous navigation and visual recognition capabilities.
+An intelligent robotic car system using STM32 microcontrollers and OpenMV vision modules for autonomous navigation and visual recognition.
 
-## Project Overview
+## Tasks
 
-This project consists of three main tasks, each demonstrating different electronic car control technologies:
+- **Task 1 - Line Following**: Sensor-based line tracking
+- **Task 2 - Labyrinth**: Autonomous maze navigation
+- **Task 3 - Comprehensive**: Multi-task, including line following, ball kicking, and obstacle avoidance
+- **Task 4 - AprilTag Tracking**: Visual marker detection and tracking
 
-- **Task1**: Line Following - Sensor-based line tracking car
-- **Task2**: Labyrinth - Autonomous navigation in maze environments
-- **Task3**: Comprehensive Task - Complex tasks combining visual recognition
+## Hardware
 
-## Hardware Platform
+### Controllers
+- **STM32F103** (ARM Cortex-M3, 72MHz) - Sensor processing and motor control
+- **STM32H743** (ARM Cortex-M7, 480MHz) - Vision processing with OpenMV
+- **LongQiu** control board with three-wheel omnidirectional chassis
 
-### Main Controllers
-- **STM32F103**: For basic control and sensor data processing
-- **STM32H743**: For high-performance computing and complex algorithms
-- **OpenMV**: Vision processing module based on MicroPython
+### Sensors & Peripherals
+- **HC-SR04** ultrasonic sensors (2x) - Distance measurement
+- **Photoelectric sensors** (4x) - Line detection array
+- **OpenMV camera** - RGB565 vision processing (160x120)
+- **Rotary encoders** (3x) - Motor feedback via Timer 12/13/14
+- **0.96" OLED display** (I2C) - Status visualization
+- **SPI LCD** (80x60) - Real-time image display
 
-### Electronic Car Platform
-- LongQiu Universal Electronic Car Control Board
-- Three-wheel trapezoidal chassis
-- Omnidirectional movement system
+### Motor Control
+- **DC motors** (3x) with DRV8701 driver
+- PWM control at 10kHz via Timer 4
+- Speed range: ±6000 PWM units
 
-### Sensor Configuration
-- Photoelectric sensor array (line tracking)
-- Ultrasonic distance sensors
-- Encoders (motion feedback)
-- Camera module (visual recognition)
+### Communication Protocols
+- **UART** (115200 baud) - Inter-board communication
+- **I2C** (software) - OLED display
+- **SPI** (software) - LCD display
 
 ## Project Structure
 
 ```
-Project for Electronic Technology/
-├── README.md                          # Project documentation
-├── Task1 Line_Following/              # Task 1: Line Following
-│   └── STM32F103/                     # STM32F103 control code
-│       ├── CMSIS/                     # CMSIS library files
-│       ├── MDK/                       # Keil MDK project files
-│       ├── OBJ/                       # Compilation output files
-│       └── USER/                      # User code
-├── Task2 Labyrinth/                   # Task 2: Labyrinth Navigation
-│   ├── STM32F103/                     # STM32F103 control code, structure like Task1's
-│   └── STM32H743/                     # STM32H743 + OpenMV code
-├── Task3 Comprehensive_Task/          # Task 3: Comprehensive Task
-│   ├── STM32F103/                     # STM32F103 control code, structure like Task1's
-│   └── STM32H743/                     # STM32H743 advanced control code
+microcontroller-based-robotic-car/
+├── Task1 Line_Following/              # Photoelectric sensor-based tracking
+│   └── STM32F103/                     # HAL-based control code
+├── Task2 Labyrinth/                   # Ultrasonic maze navigation
+│   ├── STM32F103/                     # Sensor data processing
+│   └── STM32H743/                     # OpenMV coordination
+├── Task3 Comprehensive_Task/          # Multi-mode vision control
+│   ├── STM32F103/                     # Sensor integration
+│   └── STM32H743/                     # OpenMV vision processing
+└── Task4 April Tracking/              # AprilTag detection
+    └── STM32H743/                     # TAG36H11 marker tracking
 ```
 
 ## Features
 
-### Task1 - Line Following
-- **Function**: High-precision line tracking based on photoelectric sensor array
-- **Technology**: 
-  - Four-channel photoelectric sensor array
-  - PID control algorithm
-  - Three-wheel omnidirectional motion control
-  - Obstacle detection and avoidance
-- **Features**: 
-  - Real-time sensor data fusion
-  - Adaptive speed control
-  - Exception path handling (intersections, sharp turns)
+### Task 1 - Line Following
+- PID-controlled line tracking with 4-channel photoelectric sensor array
+- HC-SR04 ultrasonic obstacle detection
+- MPU6050 IMU-based stabilization
+- Adaptive speed control for intersections and sharp turns
 
-### Task2 - Labyrinth Navigation
-- **Function**: Autonomous navigation and path planning in maze environments
-- **Technology**: 
-  - Dual ultrasonic sensor distance detection
-  - Left-hand/right-hand wall following algorithm
-  - State machine control logic
-- **Features**: 
-  - Dynamic path adjustment
-  - Wall distance adaptive control
-  - Dead-end detection and backtracking mechanism
+### Task 2 - Labyrinth Navigation
+- Dual HC-SR04 ultrasonic sensors for wall-following
+- State machine navigation with dead-end detection
+- Real-time distance-based path adjustment (12cm threshold)
+- UART communication between STM32F103 and STM32H743
 
-### Task3 - Comprehensive Task
-- **Function**: Complex task execution combining visual recognition
-- **Technology**: 
-  - OpenMV vision processing
-  - Multi-target recognition (lines, balls, arrows)
-  - Multi-mode switching control
-- **Features**: 
-  - Line tracking mode: Vision-based line following
-  - Ball kicking mode: Target recognition and precise positioning
-  - Obstacle avoidance mode: Dynamic obstacle handling
+### Task 3 - Comprehensive Task
+- OpenMV camera with HSV color detection and blob tracking
+- Multi-mode operation: line following, ball kicking, obstacle avoidance
+- Sensor fusion: photoelectric + ultrasonic + vision
+- Real-time image display on SPI LCD
 
-## Technical Highlights
+### Task 4 - AprilTag Tracking
+- TAG36H11 marker detection and recognition
+- Vision-based autonomous tracking with position feedback
+- Motor speed adjustment based on tag distance and angle
 
-### Control Algorithms
-- **State Machine**: Modular behavior control logic
-- **Sensor Fusion**: Real-time multi-sensor data processing
+## Technical Stack
 
-### Vision Processing
-- **Color Recognition**: HSV color space threshold processing
-- **Shape Detection**: Blob detection and template matching
-- **Real-time Processing**: High frame rate vision data processing
+**Control Algorithms**: PID control, state machines, sensor fusion, encoder feedback
+**Vision Processing**: HSV color space, blob detection, template matching, AprilTag (TAG36H11)
+**Motion Control**: 3-wheel omnidirectional drive, 10kHz PWM, DRV8701 motor driver
+**Communication**: UART (115200 baud), I2C, SPI, ADC
 
-### Motion Control
-- **Three-wheel Omnidirectional**: Flexible motion control
-- **Encoder Feedback**: Precise motion measurement
-- **Adaptive Control**: Dynamic adjustment based on task requirements
+## Development
 
-## Development Environment
-
-### STM32 Development
-- **IDE**: Keil MDK-ARM
-- **Framework**: STM32 HAL Library
-- **Programming Language**: C
-
-### OpenMV Development
-- **IDE**: OpenMV IDE
-- **Framework**: MicroPython
-- **Dependencies**: 
-  - OpenMV built-in image processing library
-  - Custom PID control module
-  - Custom motor control module
-
-## Build and Deployment
-
-### STM32 Projects
-1. Open the corresponding `.uvprojx` project file with Keil MDK
-2. Configure target chip model (STM32F103 or STM32H743)
-3. Build project to generate firmware
-4. Download to target board via J-Link or ST-Link
-
-### OpenMV Projects
-1. Open Python files with OpenMV IDE
-2. Connect OpenMV camera module
-3. Run directly or save to device
-
-## Usage Instructions
-
-### Hardware Connections
-1. Ensure all sensors are correctly connected to corresponding GPIO pins
-2. Check motor driver board communication with main controller
-3. Verify stable power supply
-
-### Software Configuration
-1. Adjust sensor thresholds according to actual hardware
-2. Calibrate motor parameters and PID coefficients
-3. Set serial communication parameters
-
-### Running Tests
-1. Observe OLED display status after power-on
-2. Switch between different working modes via buttons
-3. Monitor serial output for debugging information
-
-## Contact Information
-
-For questions or suggestions, please contact via:
-- Project Repository: [GitHub Repository](https://github.com/Tendourisu/Project-for-Electronic-Technology)
-- Issue Reporting: GitHub Issues
-
----
+**STM32**: Keil MDK-ARM, HAL Library, C
+**OpenMV**: OpenMV IDE, MicroPython
