@@ -9,6 +9,12 @@ An intelligent robotic car system using STM32 microcontrollers and OpenMV vision
 - **Task 3 - Comprehensive** 🎯: Multi-task, including line following, ball kicking, and obstacle avoidance
 - **Task 4 - AprilTag Tracking** 🏷️: Visual marker detection and tracking
 
+
+## 🎬 DEMO
+
+![Robotic Car Demo](assets/demo.gif)
+
+
 ## 🔧 Hardware
 
 ### 🎛️ Controllers
