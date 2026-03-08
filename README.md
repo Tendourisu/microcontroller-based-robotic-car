@@ -61,7 +61,6 @@ microcontroller-based-robotic-car/
 ### Task 1 - Line Following 🛤️
 - PID-controlled line tracking with 4-channel photoelectric sensor array
 - HC-SR04 ultrasonic obstacle detection
-- MPU6050 IMU-based stabilization
 - Adaptive speed control for intersections and sharp turns
 
 ### Task 2 - Labyrinth Navigation 🌀
